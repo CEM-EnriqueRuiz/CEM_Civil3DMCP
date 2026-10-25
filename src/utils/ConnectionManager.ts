@@ -1,10 +1,14 @@
 import { ApplicationClientConnection } from "./SocketClient.js";
 import { createLogger } from "./logger.js";
+import { resolvePort } from "./config.js";
 
 const log = createLogger("ConnectionManager");
 
 const CIVIL3D_HOST = process.env.CIVIL3D_HOST ?? "localhost";
-const CIVIL3D_PORT = parseInt(process.env.CIVIL3D_PORT ?? "8080", 10);
+const CIVIL3D_PORT = resolvePort(process.env.CIVIL3D_PORT);
+if (process.env.CIVIL3D_PORT && String(CIVIL3D_PORT) !== process.env.CIVIL3D_PORT.trim()) {
+  log.warn("CIVIL3D_PORT is not a TCP port; using the default", { value: process.env.CIVIL3D_PORT, port: CIVIL3D_PORT });
+}
 const CONNECT_TIMEOUT_MS = parseInt(process.env.CIVIL3D_CONNECT_TIMEOUT ?? "5000", 10);
 
 /**

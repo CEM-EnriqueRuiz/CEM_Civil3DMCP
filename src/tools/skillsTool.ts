@@ -16,6 +16,7 @@ interface SkillMetadata {
   category: string;
   description: string;
   requires_write: boolean;
+  verified: string;
   parameters: Array<{
     name: string;
     type: string;
@@ -36,7 +37,8 @@ interface SkillFile {
  */
 function parseSkillFile(filePath: string): SkillFile | null {
   try {
-    const raw = fs.readFileSync(filePath, "utf-8");
+    // Normalise CRLF (Windows checkouts) so the frontmatter regex matches
+    const raw = fs.readFileSync(filePath, "utf-8").replace(/\r\n/g, "\n");
     const frontmatterMatch = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
 
     if (!frontmatterMatch) {
@@ -53,6 +55,7 @@ function parseSkillFile(filePath: string): SkillFile | null {
       category: extractYamlValue(yamlBlock, "category") ?? "general",
       description: extractYamlValue(yamlBlock, "description") ?? "",
       requires_write: extractYamlValue(yamlBlock, "requires_write") === "true",
+      verified: extractYamlValue(yamlBlock, "verified") ?? "no",
       parameters: extractYamlParameters(yamlBlock),
     };
 
@@ -160,6 +163,7 @@ export function registerSkillsTool(server: McpServer) {
               category: s.metadata.category,
               description: s.metadata.description,
               requires_write: s.metadata.requires_write,
+              verified: s.metadata.verified,
               parameters: s.metadata.parameters.map((p) => p.name),
             }));
 

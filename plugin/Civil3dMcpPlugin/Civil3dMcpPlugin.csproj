@@ -1,10 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <!-- Civil 3D 2027 runs on .NET 10 (2025/2026 used .NET 8) -->
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>$(NoWarn);MSB3277</NoWarn>
     <EnableDynamicLoading>true</EnableDynamicLoading>
+    <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Civil3DReferencesPath Condition="'$(Civil3DReferencesPath)' == ''">..\..\C_References</Civil3DReferencesPath>
   </PropertyGroup>
@@ -12,6 +14,12 @@
   <!-- Roslyn scripting for code execution -->
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.12.0" />
+  </ItemGroup>
+
+  <!-- Cemengal: the shared C# library (netstandard2.0), for CemTempFolder (root decision 0031). It is copied into the
+       publish folder, which setup_claude.ps1 copies whole into the bundle (and checks). -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\CEM_CSharpExtended\CEM_CSharpExtended\CEM_CSharpExtended.csproj" />
   </ItemGroup>
 
   <!-- Civil 3D / AutoCAD references -->

@@ -3,6 +3,7 @@ name: list_alignments
 category: alignments
 description: List all alignments in the drawing with name, length, start/end stations
 requires_write: false
+verified: Civil 3D 2027 (26.0.0.0)
 parameters: []
 ---
 

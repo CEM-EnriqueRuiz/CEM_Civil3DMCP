@@ -16,10 +16,13 @@ public sealed class PluginEntry : IExtensionApplication
 {
   public void Initialize()
   {
+    // Initialize runs on the AutoCAD main thread: remember it so TCP requests
+    // (which arrive on thread-pool threads) can be marshalled back to it.
+    CivilExecution.CaptureMainThread();
     try
     {
       PluginRuntime.StartServer();
-      WriteMessage("Civil3D MCP plugin initialized.");
+      WriteMessage($"Civil3D MCP plugin initialized (port {PluginRuntime.Port}).");
     }
     catch (System.Exception ex)
     {
@@ -32,10 +35,15 @@ public sealed class PluginEntry : IExtensionApplication
     PluginRuntime.StopServer();
   }
 
+  /// <summary>Internal: executes queued civil3d_execute writes as one undoable command.</summary>
+  [CommandMethod("MCPEXEC", CommandFlags.Modal | CommandFlags.NoHistory | CommandFlags.NoMultiple)]
+  public void McpExecCommand() => CivilExecution.RunPendingWrites();
+
   /// <summary>Manually start the MCP TCP listener.</summary>
   [CommandMethod("C3DMCPSTART")]
   public void StartCommand()
   {
+    CivilExecution.CaptureMainThread();
     PluginRuntime.StartServer();
     WriteMessage($"Civil3D MCP listener started on port {PluginRuntime.Port}.");
   }

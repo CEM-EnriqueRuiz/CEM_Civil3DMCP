@@ -3,6 +3,7 @@ name: drawing_info
 category: drawing
 description: Get comprehensive information about the active Civil 3D drawing
 requires_write: false
+verified: Civil 3D 2027 (26.0.0.0)
 parameters: []
 ---
 
@@ -14,7 +15,7 @@ var settings = CivilDoc.Settings.DrawingSettings;
 // Count objects
 var surfaceCount = CivilDoc.GetSurfaceIds().Count;
 var alignmentCount = CivilDoc.GetAlignmentIds().Count;
-var corridorCount = CivilDoc.GetCorridorIds().Count;
+var corridorCount = CivilDoc.CorridorCollection.Count;
 var siteCount = CivilDoc.GetSiteIds().Count;
 var pipeNetworkCount = CivilDoc.GetPipeNetworkIds().Count;
 var pointCount = CivilDoc.CogoPoints.Count;

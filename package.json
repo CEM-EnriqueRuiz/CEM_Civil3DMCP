@@ -10,7 +10,8 @@
   "scripts": {
     "clean": "rimraf build",
     "prebuild": "npm run clean",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "npm run build && node --test \"tests/unit/*.test.mjs\""
   },
   "files": [
     "build"

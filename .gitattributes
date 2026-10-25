@@ -1,0 +1,6 @@
+# Text files are normalised to LF in the repository and checked out natively.
+* text=auto
+
+# Binary assets; never diff or normalise them.
+*.png binary
+*.dll binary

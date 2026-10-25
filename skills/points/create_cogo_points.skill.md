@@ -3,6 +3,7 @@ name: create_cogo_points
 category: points
 description: Create COGO points from coordinates with optional descriptions
 requires_write: true
+verified: Civil 3D 2027 (26.0.0.0)
 parameters:
   - name: points
     type: array
@@ -13,20 +14,24 @@ parameters:
 ## Code Template
 
 ```csharp
+// ---- parameters ----
+var points = new[] {                       // easting, northing, elevation, raw description
+    (e: 1000.0, n: 2000.0, z: 100.0, d: "TOPO"),
+};
+// ---- end parameters ----
+
 var created = new List<object>();
-
-// Add points
-var pt1 = CivilDoc.CogoPoints.Add(new Point3d(1000.0, 2000.0, 100.0), false);
-var point1 = Transaction.GetObject(pt1, OpenMode.ForWrite) as CogoPoint;
-point1.RawDescription = "TOPO";
-created.Add(new { pointNumber = point1.PointNumber, easting = point1.Easting, northing = point1.Northing });
-
-// Repeat for more points...
-
-return new { success = true, created };
+foreach (var p in points)
+{
+    var id = CivilDoc.CogoPoints.Add(new Point3d(p.e, p.n, p.z), true);   // true = next available number
+    var cp = (CogoPoint)Transaction.GetObject(id, OpenMode.ForWrite);
+    cp.RawDescription = p.d;
+    created.Add(new { pointNumber = cp.PointNumber, easting = cp.Easting, northing = cp.Northing, elevation = cp.Elevation });
+}
+return new { success = true, count = created.Count, created };
 ```
 
 ## Usage Notes
-- Set second parameter of Add() to false to auto-assign point numbers
+- The second parameter of Add() = useNextPointNumber (true = auto-assign numbers)
 - RawDescription triggers description key matching
 - Points are added to the default _All Points group automatically

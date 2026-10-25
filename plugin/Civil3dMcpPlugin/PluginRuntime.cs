@@ -13,25 +13,18 @@ public sealed record PluginStatus(
 );
 
 /// <summary>
-/// Exception type for JSON-RPC dispatch errors, carrying an error code.
-/// </summary>
-public sealed class JsonRpcDispatchException : Exception
-{
-  public JsonRpcDispatchException(string code, string message) : base(message)
-  {
-    Code = code;
-  }
-
-  public string Code { get; }
-}
-
-/// <summary>
 /// Manages the plugin lifecycle: starts/stops the TCP server,
 /// handles raw JSON-RPC requests, and provides parameter extraction helpers.
 /// </summary>
 public static class PluginRuntime
 {
-  public const int Port = 8080;
+  public const string Version = "1.2.0";
+
+  /// <summary>TCP port: <see cref="PortSetting.Default"/>, or the CIVIL3D_PORT environment variable.</summary>
+  public static readonly int Port = PortSetting.Resolve(Environment.GetEnvironmentVariable("CIVIL3D_PORT"));
+
+  /// <summary>The app name of this plugin's folder under %TEMP%\Cemengal (root decision 0031).</summary>
+  public const string TempApp = "Civil3DMCP";
 
   private static readonly object Sync = new();
   private static RpcTcpServer? _server;

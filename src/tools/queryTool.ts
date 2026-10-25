@@ -15,9 +15,15 @@ const log = createLogger("QueryTool");
 export function registerQueryTool(server: McpServer) {
   server.tool(
     "civil3d_query",
-    "Execute C# code in Civil 3D in READ-ONLY mode (no changes saved). " +
+    "Execute C# code in Civil 3D in READ-ONLY mode (the transaction is never committed; no undo step). " +
+      "Runs without a document lock: never create or import objects here, not even temporary ones (e.g. a volume surface, subassemblies) - use civil3d_execute. " +
       "Available globals: Document, CivilDoc, Database, Transaction, Editor. " +
-      "All Civil 3D namespaces are auto-imported. Return a value to get results as JSON. " +
+      "Auto-imported: System, System.Linq, System.Collections.Generic, System.Text, Autodesk.AutoCAD.{ApplicationServices,DatabaseServices,EditorInput,Geometry,Runtime}, " +
+      "Autodesk.Civil, Autodesk.Civil.{ApplicationServices,DatabaseServices,Settings}. Add other namespaces with using directives at the top " +
+      "(e.g. using Autodesk.Civil.DatabaseServices.Styles; or Map 3D: using Autodesk.Gis.Map; using Autodesk.Gis.Map.ObjectData;). " +
+      "The full AutoCAD .NET API is available too (blocks, layers, layouts, dimensions...). Return a value to get results back as JSON. " +
+      "Name clashes: write Autodesk.AutoCAD.DatabaseServices.Entity / DBObject and Autodesk.Civil.DatabaseServices.Surface / Section / Point explicitly. " +
+      "Check civil3d_skills first for tested templates. " +
       "Use this for querying data: listing objects, getting properties, analyzing surfaces, etc.",
     {
       code: z.string().describe(

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    The plugin's pure logic, compiled from the plugin's own source files (linked, not referenced): the plugin
+    project references Civil 3D's DLLs, which load only inside acad.exe. Never deployed: setup_claude.ps1
+    publishes the plugin project alone (docs/workflows/test.md).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Civil3dMcpPlugin\JsonRpcDispatchException.cs" Link="Plugin\JsonRpcDispatchException.cs" />
+    <Compile Include="..\Civil3dMcpPlugin\PortSetting.cs" Link="Plugin\PortSetting.cs" />
+    <Compile Include="..\Civil3dMcpPlugin\SavePath.cs" Link="Plugin\SavePath.cs" />
+    <Compile Include="..\Civil3dMcpPlugin\ScriptSandbox.cs" Link="Plugin\ScriptSandbox.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+</Project>

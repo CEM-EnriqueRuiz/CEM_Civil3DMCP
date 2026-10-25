@@ -11,3 +11,8 @@ plugin/**/obj/
 
 # Civil 3D References (proprietary DLLs)
 C_References/*.dll
+setup_log.txt
+test_plugin_log.txt
+tests/queue/
+tests/results/
+tests/acad_running.txt

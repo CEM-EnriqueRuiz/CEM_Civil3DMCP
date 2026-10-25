@@ -2,7 +2,7 @@ import * as net from "net";
 import { createLogger } from "./logger.js";
 
 const log = createLogger("SocketClient");
-const COMMAND_TIMEOUT_MS = parseInt(process.env.CIVIL3D_COMMAND_TIMEOUT ?? "120000", 10);
+const COMMAND_TIMEOUT_MS = parseInt(process.env.CIVIL3D_COMMAND_TIMEOUT ?? "300000", 10);
 
 export class ApplicationClientConnection {
   host: string;

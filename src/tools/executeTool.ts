@@ -22,10 +22,19 @@ const log = createLogger("ExecuteTool");
 export function registerExecuteTool(server: McpServer) {
   server.tool(
     "civil3d_execute",
-    "Execute C# code in Civil 3D with write access. The code runs inside a committed transaction. " +
+    "Execute C# code in Civil 3D with write access. The code runs inside a transaction that is committed on success " +
+      "(an exception rolls everything back). Each call runs as the MCPEXEC command = one undo step (the user can type U to revert it; Civil 3D must be idle, Esc any active command). " +
+      "Changes are NOT saved to disk — use civil3d_save. " +
+      "Write files from a script only to a path the user named; never into an ACC folder (Autodesk Desktop Connector, synced to every colleague) " +
+      "nor next to the plugin; scratch files go to System.IO.Path.GetTempPath() + \"Cemengal\\\\Civil3DMCP\". " +
       "Available globals: Document, CivilDoc, Database, Transaction, Editor. " +
-      "All Civil 3D namespaces are auto-imported. Return a value to get results back as JSON. " +
-      "Use this for operations that MODIFY the drawing (create, edit, delete objects).",
+      "Auto-imported: System, System.Linq, System.Collections.Generic, System.Text, Autodesk.AutoCAD.{ApplicationServices,DatabaseServices,EditorInput,Geometry,Runtime}, " +
+      "Autodesk.Civil, Autodesk.Civil.{ApplicationServices,DatabaseServices,Settings}. Add other namespaces with using directives at the top " +
+      "(e.g. using Autodesk.Civil.DatabaseServices.Styles; or Map 3D: using Autodesk.Gis.Map; using Autodesk.Gis.Map.ObjectData;). " +
+      "The full AutoCAD .NET API is available too (blocks, layers, layouts, dimensions...). Return a value to get results back as JSON. " +
+      "Name clashes: write Autodesk.AutoCAD.DatabaseServices.Entity / DBObject and Autodesk.Civil.DatabaseServices.Surface / Section / Point explicitly. " +
+      "Check civil3d_skills first for tested templates. " +
+      "Use this for operations that MODIFY the drawing (create, edit, delete objects); verify visually with civil3d_screenshot.",
     {
       code: z.string().describe(
         "C# code to execute. Has access to Document, CivilDoc, Database, Transaction, Editor. " +

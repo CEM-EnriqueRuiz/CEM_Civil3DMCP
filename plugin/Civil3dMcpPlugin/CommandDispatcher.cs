@@ -6,8 +6,8 @@ using App = Autodesk.AutoCAD.ApplicationServices.Application;
 namespace Civil3DMcpPlugin;
 
 /// <summary>
-/// Routes JSON-RPC methods. With code execution architecture,
-/// only 2 methods are needed: executeCode and listSkills.
+/// Routes JSON-RPC methods: executeCode (Roslyn), getCivil3DHealth,
+/// captureView (screenshot) and saveDrawing.
 /// </summary>
 public static class CommandDispatcher
 {
@@ -20,10 +20,19 @@ public static class CommandDispatcher
     {
       "executeCode" => await ExecuteCodeAsync(parameters),
       "getCivil3DHealth" => await GetHealthAsync(),
+      "captureView" => await ViewCapture.CaptureAsync(
+        PluginRuntime.GetOptionalString(parameters, "mode") ?? "view",
+        PluginRuntime.GetOptionalInt(parameters, "width") ?? 1600,
+        PluginRuntime.GetOptionalInt(parameters, "height") ?? 1000,
+        PluginRuntime.GetOptionalBool(parameters, "zoomExtents") ?? false,
+        PluginRuntime.GetOptionalInt(parameters, "maxSize") ?? 1600),
+      "saveDrawing" => await DrawingFile.SaveAsync(PluginRuntime.GetOptionalString(parameters, "path")),
+      "newDrawing" => await Automation.NewDrawingAsync(PluginRuntime.GetOptionalString(parameters, "template")),
+      "ping" => new { pong = true, pluginVersion = PluginRuntime.Version, hasDrawing = App.DocumentManager.MdiActiveDocument != null },
 
       _ => throw new JsonRpcDispatchException(
         "CIVIL3D.INVALID_INPUT",
-        $"Unknown method '{method}'. Available: executeCode, getCivil3DHealth"
+        $"Unknown method '{method}'. Available: executeCode, getCivil3DHealth, captureView, saveDrawing, newDrawing, ping"
       ),
     };
   }
@@ -65,6 +74,11 @@ public static class CommandDispatcher
         drawingName = doc.Name,
         mode = "code_execution",
         roslyn = true,
+        pluginVersion = PluginRuntime.Version,
+        acadVersion = App.Version.ToString(),
+        product = App.GetSystemVariable("PRODUCT")?.ToString(),
+        mapApiLoaded = RoslynExecutor.MapApiLoaded,
+        scriptTimeoutSeconds = RoslynExecutor.Timeout.TotalSeconds,
       };
     });
   }

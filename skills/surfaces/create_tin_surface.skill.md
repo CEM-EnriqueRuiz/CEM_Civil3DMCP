@@ -3,6 +3,7 @@ name: create_tin_surface
 category: surfaces
 description: Create a new TIN surface and optionally add 3D points to it
 requires_write: true
+verified: Civil 3D 2027 (26.0.0.0)
 parameters:
   - name: surfaceName
     type: string
@@ -21,8 +22,15 @@ parameters:
 ## Code Template
 
 ```csharp
+// ---- parameters ----
+var surfaceName = "EG";
+var xyz = new double[][] {
+    // new[] { 1000.0, 2000.0, 100.0 },
+};
+// ---- end parameters ----
+
 // Create the TIN surface
-var surfaceId = TinSurface.Create(Database, "SURFACE_NAME_HERE");
+var surfaceId = TinSurface.Create(Database, surfaceName);
 var surface = Transaction.GetObject(surfaceId, OpenMode.ForWrite) as TinSurface;
 
 // Optionally set description
@@ -30,8 +38,7 @@ var surface = Transaction.GetObject(surfaceId, OpenMode.ForWrite) as TinSurface;
 
 // Optionally add points
 var pts = new Point3dCollection();
-// pts.Add(new Point3d(x, y, z));
-// pts.Add(new Point3d(x2, y2, z2));
+foreach (var v in xyz) pts.Add(new Point3d(v[0], v[1], v[2]));
 
 if (pts.Count > 0)
 {

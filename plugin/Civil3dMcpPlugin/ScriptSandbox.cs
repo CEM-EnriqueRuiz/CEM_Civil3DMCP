@@ -12,8 +12,8 @@ public static class ScriptSandbox
   private static readonly (string Pattern, string Reason)[] BlockedPatterns = new[]
   {
     (@"System\.Diagnostics\.Process", "Process execution is not allowed"),
-    (@"System\.IO\.File\.Delete", "File deletion is not allowed"),
-    (@"System\.IO\.Directory\.Delete", "Directory deletion is not allowed"),
+    (@"\bFile\.Delete\b", "File deletion is not allowed"),
+    (@"\bDirectory\.Delete\b", "Directory deletion is not allowed"),
     (@"System\.Net\.Http", "HTTP requests are not allowed"),
     (@"System\.Net\.Sockets", "Socket operations are not allowed"),
     (@"System\.Reflection\.Assembly\.Load", "Dynamic assembly loading is not allowed"),

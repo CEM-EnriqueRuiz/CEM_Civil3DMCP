@@ -3,6 +3,7 @@ name: list_cogo_points
 category: points
 description: List COGO points in the drawing, optionally filtered by point group
 requires_write: false
+verified: Civil 3D 2027 (26.0.0.0)
 parameters:
   - name: groupName
     type: string

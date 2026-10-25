@@ -3,6 +3,7 @@ name: list_surfaces
 category: surfaces
 description: List all surfaces in the active Civil 3D drawing with name, type, layer, and basic statistics
 requires_write: false
+verified: Civil 3D 2027 (26.0.0.0)
 parameters: []
 ---
 
@@ -27,10 +28,14 @@ foreach (ObjectId id in CivilDoc.GetSurfaceIds())
 
     if (surface is TinSurface tin)
     {
-        var props = tin.GetGeneralProperties();
-        info["minElevation"] = props.MinimumElevation;
-        info["maxElevation"] = props.MaximumElevation;
-        info["numberOfPoints"] = props.NumberOfPoints;
+        try
+        {
+            var props = tin.GetGeneralProperties();
+            info["minElevation"] = props.MinimumElevation;
+            info["maxElevation"] = props.MaximumElevation;
+            info["numberOfPoints"] = props.NumberOfPoints;
+        }
+        catch { info["numberOfPoints"] = 0; info["note"] = "empty (no points/triangles) - rebuild it"; }
     }
 
     surfaces.Add(info);
