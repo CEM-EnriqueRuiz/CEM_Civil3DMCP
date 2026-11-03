@@ -34,3 +34,11 @@ root 0031, so the strict rule applies here. [0003](decisions/0003-no-acc-writes-
 `CemTempFolder.UserTempPath`. The [live MCP test](workflows/live-mcp-test.md) no longer names the project
 drawing. [File writes](concepts/file-writes.md) and [upstream and fork](concepts/upstream-and-fork.md) record the
 commit. `tests/acad_running.txt`, an old harness output, is ignored. All decisions were already `current`.
+
+## [2026-11-03] ingest | The civil3d MCP server declared in .mcp.json (no issue)
+
+The user asked for each repo's `.mcp.json` to declare the servers its development needs, and to commit this without an
+issue link. `.mcp.json` gains the project-level `civil3d` entry with the relative path `build/index.js`, and
+`.claude/settings.local.json` enables it. Decisions and the rejected absolute path and user-level registration are in
+[sources/commits/2026-11](sources/commits/2026-11.md). [Connect an agent](workflows/connect-an-agent.md) now gives the
+project entry and the build it needs.
