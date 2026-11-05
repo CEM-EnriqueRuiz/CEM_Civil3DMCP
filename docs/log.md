@@ -1,7 +1,7 @@
 ---
 title: "Wiki log"
 type: log
-updated: 2026-10-25
+updated: 2026-11-05
 sources: []
 related:
   - index.md
@@ -42,3 +42,18 @@ issue link. `.mcp.json` gains the project-level `civil3d` entry with the relativ
 `.claude/settings.local.json` enables it. Decisions and the rejected absolute path and user-level registration are in
 [sources/commits/2026-11](sources/commits/2026-11.md). [Connect an agent](workflows/connect-an-agent.md) now gives the
 project entry and the build it needs.
+
+## [2026-11-05] ingest | Overnight maintenance review
+
+The user reviewed the overnight maintenance review and chose to commit it with no issue link and without the QA and
+security reviews. Applied:
+- the old harness outputs moved out of the checkout, with their `.gitignore` lines;
+- the dead `test_plugin.js` and `tests/kill_stale_acad.bat` deleted;
+- the false "Connection timed out" warning after every successful call fixed (`ConnectionManager`);
+- `civil3d_skills get` returns each parameter's type, `required` and description as declared (it returned optional
+  strings);
+- comments that contradicted the wiki corrected.
+
+[Known gaps](concepts/known-gaps.md) gains the risks found by reading the code, including the NETLOAD hint and
+"pending: 0". The changes, the decisions, the verification (node 32/32, xunit 24/24) and the proposals P1–P9, which
+were not applied, are in [sources/commits/2026-11](sources/commits/2026-11.md).

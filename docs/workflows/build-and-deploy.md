@@ -1,7 +1,7 @@
 ---
 title: "Build and deploy: the server, the plugin, the bundle, and the Civil 3D restart"
 type: workflow
-updated: 2026-10-24
+updated: 2026-11-05
 sources: [package.json, plugin/Civil3dMcpPlugin/Civil3dMcpPlugin.csproj, setup_claude.ps1]
 related: [../decisions/0004-per-user-bundle-deploy.md, ../modules/harness-and-setup.md, test.md, live-mcp-test.md]
 tags: [build, deploy, bundle, restart]
@@ -14,7 +14,7 @@ tags: [build, deploy, bundle, restart]
 
 ```powershell
 npm run build                                                                       # build/ (tsc; prebuild cleans)
-dotnet build plugin\Civil3dMcpPlugin\Civil3dMcpPlugin.csproj -c Release -v minimal   # 0 errors (~25 CA1416 warnings, known)
+dotnet build plugin\Civil3dMcpPlugin\Civil3dMcpPlugin.csproj -c Release -v minimal   # 0 errors (22 CA1416 warnings, known)
 dotnet publish plugin\Civil3dMcpPlugin\Civil3dMcpPlugin.csproj -c Release -o plugin\Civil3dMcpPlugin\bin\Release\publish
 ```
 

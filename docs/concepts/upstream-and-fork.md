@@ -1,7 +1,7 @@
 ---
 title: "Upstream and fork: what barbosaihan/civil3d-mcp is and what Cemengal changed"
 type: concept
-updated: 2026-10-25
+updated: 2026-11-05
 sources: [git log, d6b953d, ef0e7db, 9506566, README.md]
 related: [../sources/commits/2026-05.md, ../sources/commits/2026-10.md, ../sources/issues/CEM-EnriqueRuiz-CEM_API-82.md, ../decisions/0001-code-execution-architecture.md, ../overview.md]
 tags: [fork, upstream, history]
@@ -29,6 +29,8 @@ skill templates (`d6b953d`). The fork base is `344ad15` (2026-05-15). Details: [
   ([0003](../decisions/0003-no-acc-writes-temp-folder.md)), the save-path check
   ([0005](../decisions/0005-save-only-where-the-user-asked.md)), the unit suites
   ([0006](../decisions/0006-tests-node-and-xunit.md)), and this wiki.
+- Upstream comments that contradicted the fork, corrected on 2026-11-05 (comments only): `ScriptSandbox` called a
+  security sandbox, `PluginEntry` loaded by NETLOAD, `C_References/README.md` written for AutoCAD 2025.
 
 **Rules for change.** Keep upstream's layout (`plugin/`, `src/`, `skills/`); record each divergence here. Pull
 upstream by merge, never rebase the fork; never push to `upstream`. Upstream's `package.json` still names

@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 namespace Civil3DMcpPlugin;
 
 /// <summary>
-/// Security sandbox that validates C# code before execution.
-/// Blocks potentially dangerous operations while allowing full Civil 3D API access.
+/// A text filter on the script before it runs: it rejects code whose text matches a few dangerous calls (process
+/// start, file and directory delete, HTTP, sockets, registry, P/Invoke, assembly loading). It is NOT a sandbox: a
+/// script can reach the same calls under another spelling, and the code runs with the user's full rights
+/// (docs/concepts/known-gaps.md).
 /// </summary>
 public static class ScriptSandbox
 {

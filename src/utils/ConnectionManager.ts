@@ -23,15 +23,21 @@ export async function withApplicationConnection<T>(
   try {
     if (!appClient.isConnected) {
       await new Promise<void>((resolve, reject) => {
-        const onConnect = () => {
+        // The timeout covers the connect only: once it succeeds or fails, its timer must not fire.
+        let timer: NodeJS.Timeout | undefined;
+        const settle = () => {
+          clearTimeout(timer);
           appClient.socket.removeListener("connect", onConnect);
           appClient.socket.removeListener("error", onError);
+        };
+
+        const onConnect = () => {
+          settle();
           resolve();
         };
 
         const onError = (error: any) => {
-          appClient.socket.removeListener("connect", onConnect);
-          appClient.socket.removeListener("error", onError);
+          settle();
           log.error("Connection failed", { host: CIVIL3D_HOST, port: CIVIL3D_PORT });
           reject(
             new Error(
@@ -46,9 +52,8 @@ export async function withApplicationConnection<T>(
 
         appClient.connect();
 
-        setTimeout(() => {
-          appClient.socket.removeListener("connect", onConnect);
-          appClient.socket.removeListener("error", onError);
+        timer = setTimeout(() => {
+          settle();
           log.warn("Connection timed out", {
             host: CIVIL3D_HOST,
             port: CIVIL3D_PORT,

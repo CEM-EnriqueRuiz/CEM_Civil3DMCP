@@ -1,7 +1,7 @@
 ---
 title: "CEM_Civil3DMCP wiki — index"
 type: index
-updated: 2026-11-03
+updated: 2026-11-05
 sources: [README.md, CLAUDE.md, .claude/skills/cem-civil3dmcp-dev/SKILL.md]
 related: [overview.md, log.md]
 tags: [index]
@@ -99,6 +99,7 @@ anything that runs in Civil 3D.
 
 - [commits 2026-05](sources/commits/2026-05.md): upstream's history to the fork base.
 - [commits 2026-10](sources/commits/2026-10.md): the user's Civil 3D 2027 work (no issue), committed with #82.
-- [commits 2026-11](sources/commits/2026-11.md): the project-level `civil3d` entry in `.mcp.json` (no issue).
+- [commits 2026-11](sources/commits/2026-11.md): the project-level `civil3d` entry in `.mcp.json`, and the
+  2026-11-05 maintenance review with its unapplied proposals P1–P9 (no issue).
 - [CEM_API#82](sources/issues/CEM-EnriqueRuiz-CEM_API-82.md): nothing written into ACC; port 8766, the temp folder,
   the save-path check, the tests, the onboarding and the live run, with every decision and its reasons.

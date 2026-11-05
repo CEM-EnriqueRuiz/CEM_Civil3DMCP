@@ -1,10 +1,13 @@
 # C# References for Civil 3D Plugin
 
-This directory should contain copies of the following DLLs from your Civil 3D installation.
+This directory holds copies of the following DLLs from your Civil 3D installation. The plugin compiles against them
+and never ships them (`Private=False` in the csproj).
 
 ## Required DLLs
 
-Copy these from your Civil 3D installation directory (typically `C:\Program Files\Autodesk\AutoCAD 2025\`):
+`setup_claude.ps1` finds Civil 3D through the registry (or the running acad.exe) and copies them here. On the main
+machine that is Civil 3D 2027, e.g. `D:\Archivos de programa\Autodesk\Autocad 2027\AutoCAD 2027\`; the
+`AeccDbMgd.dll` may sit in its `C3D\` subfolder.
 
 | DLL | Purpose |
 |-----|---------|
@@ -16,9 +19,10 @@ Copy these from your Civil 3D installation directory (typically `C:\Program File
 
 ## Instructions
 
-1. Navigate to your Civil 3D installation directory
-2. Copy the DLLs listed above into this `C_References/` directory
-3. Build the plugin with `dotnet build` from the `plugin/Civil3dMcpPlugin/` directory
+1. Run `setup_claude.ps1` once (it also builds and deploys), or copy the DLLs above by hand from the Civil 3D
+   install folder.
+2. Build: `dotnet build plugin\Civil3dMcpPlugin\Civil3dMcpPlugin.csproj -c Release` from the repo root
+   ([build and deploy](../docs/workflows/build-and-deploy.md)).
 
 > **Note**: These DLLs are proprietary Autodesk files and must NOT be committed to version control.
 > They are already excluded by `.gitignore`.

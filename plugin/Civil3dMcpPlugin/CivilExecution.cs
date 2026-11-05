@@ -7,8 +7,9 @@ namespace Civil3DMcpPlugin;
 
 /// <summary>
 /// Helper for executing Civil 3D API operations safely on the main thread.
-/// The Civil 3D API is single-threaded — all operations must be marshaled to
-/// the main AutoCAD thread via ExecuteInCommandContextAsync.
+/// The Civil 3D API is single-threaded: every operation is posted to the main AutoCAD thread through the
+/// SynchronizationContext captured at load; a write runs inside the MCPEXEC command, a query in the application
+/// context without a lock (docs/concepts/threading-and-undo.md).
 /// </summary>
 public static class CivilExecution
 {

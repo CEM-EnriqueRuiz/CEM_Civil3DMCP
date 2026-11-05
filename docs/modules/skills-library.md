@@ -1,7 +1,7 @@
 ---
 title: "skills/ — the 48 tested C# templates served by civil3d_skills"
 type: module
-updated: 2026-10-24
+updated: 2026-11-05
 sources: [skills/README.md, src/tools/skillsTool.ts, tests/skills_test.cjs, README.md]
 related: [mcp-server.md, harness-and-setup.md, ../workflows/add-a-skill.md]
 tags: [skills, templates, csharp]
@@ -10,7 +10,8 @@ tags: [skills, templates, csharp]
 # Skills library
 
 `skills/<category>/<name>.skill.md`: YAML front matter (`name`, `category`, `description`, `requires_write`,
-`verified`, `parameters`) and a body whose first ```` ```csharp ```` block is the template. Templates start with a
+`verified`, `parameters`, each with `name`, `type`, `required` and an optional `description`, as `civil3d_skills get`
+returns them) and a body whose first ```` ```csharp ```` block is the template. Templates start with a
 `// ---- parameters ----` block the AI edits before sending the code to `civil3d_query` (read-only skills) or
 `civil3d_execute` (`requires_write: true`). The README's table lists all 48, by category: drawing, surfaces,
 points, alignments, profiles, sections, corridors, pipes, grading, parcels, styles, geometry, cad, view, map,

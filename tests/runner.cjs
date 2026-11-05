@@ -1,4 +1,4 @@
-// Dev test runner: watches tests/queue/*.json and executes each job against the
+// Dev test runner: watches the job queue (*.json, below) and executes each job against the
 // Civil 3D plugin (raw TCP) or through the MCP server (stdio), writing results to
 // %TEMP%\Cemengal\Civil3DMCP\TestResults\<job>.json. Lets changes be tested without touching the GUI.
 // The queue is %TEMP%\Cemengal\Civil3DMCP\Queue (tools/cem-temp.cjs: never next to this script; docs/decisions/0003).

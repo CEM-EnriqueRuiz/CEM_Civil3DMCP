@@ -9,8 +9,8 @@ namespace Civil3DMcpPlugin;
 
 /// <summary>
 /// Entry point for the Civil 3D MCP plugin.
-/// Loads automatically when Civil 3D starts (via NETLOAD) and starts
-/// a TCP socket server that listens for JSON-RPC commands from the MCP server.
+/// Loads when Civil 3D starts, from the per-user autoload bundle CEM_Civil3DMCP.bundle (docs/decisions/0004), and
+/// starts a TCP socket server that listens for JSON-RPC commands from the MCP server.
 /// </summary>
 public sealed class PluginEntry : IExtensionApplication
 {

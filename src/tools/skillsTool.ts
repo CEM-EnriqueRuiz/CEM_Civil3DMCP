@@ -78,7 +78,8 @@ function extractYamlParameters(yaml: string): SkillMetadata["parameters"] {
 
   const paramBlocks = paramSection[1].split(/\n\s+-\s+/).filter(Boolean);
   for (const block of paramBlocks) {
-    const lines = block.includes("- ") ? block.replace(/^\s*-\s*/, "") : block;
+    // The keys under "- name:" are indented: read every line from column 0, or only the name is found.
+    const lines = (block.includes("- ") ? block.replace(/^\s*-\s*/, "") : block).replace(/^[ \t]+/gm, "");
     const name = extractYamlValue(lines, "name");
     const type = extractYamlValue(lines, "type") ?? "string";
     const required = extractYamlValue(lines, "required") === "true";

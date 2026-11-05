@@ -1,7 +1,7 @@
 ---
 title: "Finish a change — commit with its wiki ingest"
 type: workflow
-updated: 2026-10-24
+updated: 2026-11-05
 sources: [CLAUDE.md, AGENTS.md, .claude/agents/cem-civil3dmcp-dev.md]
 related: [../log.md, ../index.md, test.md]
 tags: [commit, wiki, workflow]
@@ -23,5 +23,5 @@ Rules: [CROSS_REPO §4 and §9](../../../../CROSS_REPO.md).
    `Co-Authored-By`. Use the user's link verbatim; with no issue, the plain `TYPE - Description.` form.
 4. The `pre-commit` hook rejects staged code without a staged `docs/log.md` plus another `docs/` page.
 
-Do not push unless the user asks. Never push to `upstream`. Never stage `C_References/*.dll`, `build/`, the old
-`tests/results/` or anything under `%TEMP%`.
+Do not push unless the user asks. Never push to `upstream`. Never stage `C_References/*.dll`, `build/` or anything
+under `%TEMP%`.

@@ -1,7 +1,7 @@
 ---
 title: "The Node MCP server (civil3d-mcp, build/index.js) and its five tools"
 type: module
-updated: 2026-10-24
+updated: 2026-11-05
 sources: [src/index.ts, src/tools/register.ts, src/tools/queryTool.ts, src/tools/executeTool.ts, src/tools/skillsTool.ts, src/tools/screenshotTool.ts, src/tools/saveTool.ts, src/utils/ConnectionManager.ts, src/utils/SocketClient.ts, src/utils/config.ts, src/utils/logger.ts, package.json, tsconfig.json]
 related: [plugin.md, skills-library.md, ../decisions/0001-code-execution-architecture.md, ../decisions/0002-own-port-8766.md, ../workflows/connect-an-agent.md]
 tags: [mcp, node, typescript, tools]
@@ -10,7 +10,8 @@ tags: [mcp, node, typescript, tools]
 # MCP server
 
 TypeScript in `src/`, compiled by `tsc` to `build/` (ESM, Node16 modules), started over stdio as
-`node build/index.js`; server name `civil3d-mcp`, version 1.2.0. Dependencies: `@modelcontextprotocol/sdk`, `zod`.
+`node build/index.js`; server name `civil3d-mcp`, version 1.2.0. Dependencies: `@modelcontextprotocol/sdk`, `zod` (`package.json` also
+declares `ws`, which nothing imports, and says version 1.0.0: [known gaps](../concepts/known-gaps.md)).
 
 | Tool | Plugin call | Notes |
 |---|---|---|
@@ -22,7 +23,7 @@ TypeScript in `src/`, compiled by `tsc` to `build/` (ESM, Node16 modules), start
 
 `ConnectionManager.withApplicationConnection` opens one TCP connection per call to `CIVIL3D_HOST`
 (`localhost`) : `resolvePort(CIVIL3D_PORT)` (default 8766, [0002](../decisions/0002-own-port-8766.md)), with a
-5 s connect timeout (`CIVIL3D_CONNECT_TIMEOUT`); `SocketClient` waits `CIVIL3D_COMMAND_TIMEOUT` (300 000 ms) for
+5 s connect timeout (`CIVIL3D_CONNECT_TIMEOUT`, cleared once the connect succeeds or fails); `SocketClient` waits `CIVIL3D_COMMAND_TIMEOUT` (300 000 ms) for
 the response. `logger.ts` writes to stderr only, at `LOG_LEVEL` (`info`); the server writes no file.
 
 `skillsTool` finds `skills/` relative to its own build folder (`build/tools/../../skills`): a read, never a write.

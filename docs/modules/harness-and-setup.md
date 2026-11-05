@@ -1,8 +1,8 @@
 ---
 title: "Setup and the live harness: setup_claude.ps1, tests/*.cjs, run_all, test_plugin, tools/cem-temp.cjs"
 type: module
-updated: 2026-10-24
-sources: [setup_claude.ps1, setup_claude.bat, tools/cem-temp.cjs, tests/runner.cjs, tests/skills_test.cjs, tests/run_all.ps1, tests/list_acad.bat, tests/kill_stale_acad.bat, test_plugin.cjs]
+updated: 2026-11-05
+sources: [setup_claude.ps1, setup_claude.bat, tools/cem-temp.cjs, tests/runner.cjs, tests/skills_test.cjs, tests/run_all.ps1, tests/list_acad.bat, test_plugin.cjs]
 related: [../decisions/0003-no-acc-writes-temp-folder.md, ../decisions/0004-per-user-bundle-deploy.md, ../decisions/0002-own-port-8766.md, ../workflows/build-and-deploy.md, ../workflows/live-mcp-test.md]
 tags: [setup, harness, scripts, temp]
 ---
@@ -32,7 +32,7 @@ single segments, like the C# `CemTempFolder`.
 | `tests/runner.cjs` (`runner.bat`) | watches `…\Queue\*.json` and runs each job by raw RPC or through the MCP server | `…\TestResults\<job>.json` |
 | `test_plugin.cjs` (`test_plugin.bat`) | health and one query over raw TCP | `…\test_plugin-yyyyMMdd.log` |
 | `tests/list_acad.bat` | lists acad.exe processes | `…\TestResults\acad_procs.txt` |
-| `tests/kill_stale_acad.bat` | kills one stale PID (a leftover; [known gaps](../concepts/known-gaps.md)) | — |
 
 `…` is `%TEMP%\Cemengal\Civil3DMCP`. Every script falls back to port 8766 when `CIVIL3D_PORT` is unset. The repo's old
-`tests/results/`, `setup_log.txt` and `test_plugin_log.txt` are ignored leftovers.
+`tests/results/`, `setup_log.txt` and `test_plugin_log.txt` were moved out of the checkout on 2026-11-05
+([file writes](../concepts/file-writes.md)).

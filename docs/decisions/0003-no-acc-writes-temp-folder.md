@@ -2,7 +2,7 @@
 title: "0003 — Nothing writes under ACC or next to its DLL or script; logs and artefacts go to %TEMP%\\Cemengal\\Civil3DMCP"
 type: decision
 status: current
-updated: 2026-10-25
+updated: 2026-11-05
 sources: [https://github.com/CEM-EnriqueRuiz/CEM_API/issues/82, plugin/Civil3dMcpPlugin/ViewCapture.cs, plugin/Civil3dMcpPlugin/Civil3dMcpPlugin.csproj, tools/cem-temp.cjs, tests/unit/no-acc-writes.test.mjs, tests/unit/cem-temp.test.mjs, setup_claude.ps1, tests/runner.cjs, tests/skills_test.cjs, test_plugin.cjs, ../../CEM_CSharpExtended/CEM_CSharpExtended/Hosting/CemTempFolder.cs]
 related: [../sources/issues/CEM-EnriqueRuiz-CEM_API-82.md, ../concepts/file-writes.md, ../modules/plugin.md, ../modules/harness-and-setup.md, ../../../../docs/decisions/0031-nothing-writes-under-acc-logs-in-local-temp.md, ../../../../CEM_CSharpExtended/docs/decisions/0032-temp-folder-for-logs-and-artefacts.md]
 tags: [acc, logs, temp, cem_csharpextended, guard]
@@ -45,5 +45,6 @@ temp folder for them too, 2026-10-24); a background cleanup thread (0031: prune 
 host); returning the screenshot only in memory (the user can open the saved copy; it now expires on its own).
 
 **Consequences.** Plugin and harness outputs no longer appear in the checkout; the old `tests/results`,
-`setup_log.txt` and `test_plugin_log.txt` stay ignored and untouched. The publish folder also carries
+`setup_log.txt` and `test_plugin_log.txt` stay ignored and untouched (until 2026-11-05, when they were moved out of
+the checkout and their `.gitignore` lines dropped: [file writes](../concepts/file-writes.md)). The publish folder also carries
 CEM_CSharpExtended's own dependencies (SocketIO, Clipper2), which the plugin never loads ([known gaps](../concepts/known-gaps.md)).

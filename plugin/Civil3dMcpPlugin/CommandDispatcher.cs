@@ -7,7 +7,7 @@ namespace Civil3DMcpPlugin;
 
 /// <summary>
 /// Routes JSON-RPC methods: executeCode (Roslyn), getCivil3DHealth,
-/// captureView (screenshot) and saveDrawing.
+/// captureView (screenshot), saveDrawing, newDrawing and ping.
 /// </summary>
 public static class CommandDispatcher
 {
@@ -54,10 +54,11 @@ public static class CommandDispatcher
     {
       var context = new ScriptContext(doc, civilDoc, db, tr);
 
-      // Run the Roslyn script synchronously within the command context
-      // (we're already on the main thread here)
+      // Run the Roslyn script synchronously: we are already on the main thread (the MCPEXEC command for a write,
+      // the application context for a query). Blocking it is safe only while the script itself never awaits
+      // (docs/concepts/known-gaps.md).
       var task = RoslynExecutor.ExecuteAsync(code, context);
-      task.Wait(); // Safe because we're in ExecuteInCommandContextAsync
+      task.Wait();
 
       return task.Result;
     }, write: !readOnly);
